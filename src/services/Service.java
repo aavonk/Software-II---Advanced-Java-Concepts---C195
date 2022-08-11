@@ -3,6 +3,9 @@ package services;
 import models.*;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 /**
  * Base class for Services that interact with the database.
@@ -91,8 +94,8 @@ public abstract class Service {
             appointment.setDescription(rs.getString("Description"));
             appointment.setLocation(rs.getString("Location"));
             appointment.setType(rs.getString("Type"));
-            appointment.setStart(rs.getTimestamp("Start"));
-            appointment.setEnd(rs.getTimestamp("End"));
+            appointment.setStart(this.fromUtcTime(rs.getTimestamp("Start").toLocalDateTime()));
+            appointment.setEnd(this.fromUtcTime(rs.getTimestamp("End").toLocalDateTime()));
             appointment.setCustomerId(rs.getInt("Customer_ID"));
             appointment.setUserId(rs.getInt("User_ID"));
             appointment.setContactId(rs.getInt("Contact_ID"));
@@ -168,4 +171,9 @@ public abstract class Service {
     }
 
 
+    private LocalDateTime fromUtcTime(LocalDateTime date) {
+        ZonedDateTime zdtOut = date.atZone(ZoneId.of("UTC"));
+        ZonedDateTime zdtOutToLocalTZ = zdtOut.withZoneSameInstant(ZoneId.of(ZoneId.systemDefault().toString()));
+        return zdtOutToLocalTZ.toLocalDateTime();
+    }
 }

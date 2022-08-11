@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -114,16 +115,16 @@ public class ReportsController extends BaseController implements Initializable {
         contactNameCol.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getContact().getName()));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         dateCol.setCellValueFactory(c -> {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("M-dd-yyyy");
-            return new SimpleStringProperty(dateFormat.format(c.getValue().getStart()));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M-dd-yyyy");
+            return new SimpleStringProperty(c.getValue().getStart().format(formatter));
         });
         startTimeCol.setCellValueFactory(c -> {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm aa");
-            return new SimpleStringProperty(dateFormat.format(c.getValue().getStart()));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+            return new SimpleStringProperty(c.getValue().getStart().format(formatter));
         });
         endTimeCol.setCellValueFactory(c -> {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm aa");
-            return new SimpleStringProperty(dateFormat.format(c.getValue().getEnd()));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+            return new SimpleStringProperty(c.getValue().getEnd().format(formatter));
         });
 
         customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));

@@ -1,9 +1,6 @@
 package models;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.Date;
 
 public class Appointment extends BaseEntity {
@@ -12,8 +9,8 @@ public class Appointment extends BaseEntity {
     private String description;
     private String location;
     private String type;
-    private Date start;
-    private Date end;
+    private LocalDateTime start;
+    private LocalDateTime end;
     private int customerId;
     private int userId;
     private int contactId;
@@ -31,10 +28,10 @@ public class Appointment extends BaseEntity {
         this.location = location;
         this.type = type;
         Instant startInstant = start.atDate(appointmentDate).atZone(ZoneId.systemDefault()).toInstant();
-        this.start = Date.from(startInstant);
+        this.start = LocalDateTime.ofInstant(startInstant,ZoneId.systemDefault());
 
         Instant endInstant = end.atDate(appointmentDate).atZone(ZoneId.systemDefault()).toInstant();
-        this.end = Date.from(endInstant);
+        this.end = LocalDateTime.ofInstant(endInstant, ZoneId.systemDefault());
         this.customerId = customerId;
         this.userId = userId;
         this.contact = contact;
@@ -94,19 +91,19 @@ public class Appointment extends BaseEntity {
         this.type = type;
     }
 
-    public Date getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(LocalDateTime start) {
         this.start = start;
     }
 
-    public Date getEnd() {
+    public LocalDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(LocalDateTime end) {
         this.end = end;
     }
 

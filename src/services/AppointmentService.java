@@ -4,6 +4,9 @@ import models.Appointment;
 import models.AppointmentTypeItem;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +45,8 @@ public class AppointmentService extends Service {
         statement.setString(2, appointment.getDescription());
         statement.setString(3, appointment.getLocation());
         statement.setString(4, appointment.getType());
-        statement.setTimestamp(5, new Timestamp(appointment.getStart().getTime()));
-        statement.setTimestamp(6, new Timestamp(appointment.getEnd().getTime()));
+        statement.setTimestamp(5, Timestamp.valueOf(this.toUtcTime(appointment.getStart())));
+        statement.setTimestamp(6, Timestamp.valueOf(this.toUtcTime(appointment.getEnd())));
         statement.setTimestamp(7, new Timestamp(appointment.getCreateDate().getTime()));
         statement.setString(8, appointment.getCreatedBy());
         statement.setTimestamp(9, new Timestamp(appointment.getLastUpdate().getTime()));
@@ -67,8 +70,8 @@ public class AppointmentService extends Service {
         statement.setString(2, appointment.getDescription());
         statement.setString(3, appointment.getLocation());
         statement.setString(4, appointment.getType());
-        statement.setTimestamp(5, new Timestamp(appointment.getStart().getTime()));
-        statement.setTimestamp(6, new Timestamp(appointment.getEnd().getTime()));
+        statement.setTimestamp(5, Timestamp.valueOf(this.toUtcTime(appointment.getStart())));
+        statement.setTimestamp(6, Timestamp.valueOf(this.toUtcTime(appointment.getEnd())));
         statement.setTimestamp(7, new Timestamp(appointment.getCreateDate().getTime()));
         statement.setString(8, appointment.getCreatedBy());
         statement.setTimestamp(9, new Timestamp(appointment.getLastUpdate().getTime()));
@@ -190,11 +193,11 @@ public class AppointmentService extends Service {
      * Checks if there is already an appointment schedules during the start & end time supplied. This
      * is used to prevent overlapping appointments.
      * @param startTime the time the appointment starts
-     * @param endTime the time the appointment ends
+     * @param entTime the time the appointment ends
      * @param id the id of the appointment
      * @return true if there's a conflict, false otherwise
      */
-    public boolean hasConflicts(java.util.Date startTime, java.util.Date endTime, int id) {
+    public boolean hasConflicts(LocalDateTime startTime, LocalDateTime entTime, int id) {
         List<Appointment> appointments = new ArrayList<>();
 
         try {
@@ -204,9 +207,9 @@ public class AppointmentService extends Service {
                     " OR (?) BETWEEN Start AND End" +
                     " OR (?) BETWEEN Start AND End)" +
                     "AND Appointment_ID != ?;");
-            statement.setTimestamp(1, new Timestamp(startTime.getTime()));
-            statement.setTimestamp(2, new Timestamp(startTime.getTime()));
-            statement.setTimestamp(3, new Timestamp(endTime.getTime()));
+            statement.setTimestamp(1, Timestamp.valueOf(startTime));
+            statement.setTimestamp(2, Timestamp.valueOf(startTime));
+            statement.setTimestamp(3, Timestamp.valueOf(entTime));
             statement.setInt(4, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -238,5 +241,14 @@ public class AppointmentService extends Service {
         }
         return items;
     }
+
+    private LocalDateTime toUtcTime(LocalDateTime date) {
+        Timestamp ts = Timestamp.valueOf(date);
+        LocalDateTime ldt = ts.toLocalDateTime();
+        ZonedDateTime zdt = ldt.atZone(ZoneId.of(ZoneId.systemDefault().toString()));
+        ZonedDateTime utczdt = zdt.withZoneSameInstant(ZoneId.of("UTC"));
+        return utczdt.toLocalDateTime();
+    }
+
 
 }

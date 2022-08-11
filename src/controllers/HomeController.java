@@ -21,7 +21,11 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -217,23 +221,26 @@ public class HomeController extends BaseController implements Initializable {
         appointmentContactCol.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getContact().getName()));
         appointmentTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         appointmentDateCol.setCellValueFactory(c -> {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("M-dd-yyyy");
-            return new SimpleStringProperty(dateFormat.format(c.getValue().getStart()));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M-dd-yyyy");
+            return new SimpleStringProperty(c.getValue().getStart().format(formatter));
+
         });
         appointmentStartCol.setCellValueFactory(c -> {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm aa");
-            return new SimpleStringProperty(dateFormat.format(c.getValue().getStart()));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+            return new SimpleStringProperty(c.getValue().getStart().format(formatter));
+
         });
         appointmentEndCol.setCellValueFactory(c -> {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm aa");
-            return new SimpleStringProperty(dateFormat.format(c.getValue().getEnd()));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+            return new SimpleStringProperty(c.getValue().getEnd().format(formatter));
+
         });
 
         appointmentCustomerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         appointmentUserIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
     }
 
-    private void onReportsButtonClick(ActionEvent e){
+    private void onReportsButtonClick(ActionEvent e) {
         try {
             this.navigate(e, "/views/ReportsView.fxml", "Reports");
         } catch (IOException ex) {
@@ -251,6 +258,8 @@ public class HomeController extends BaseController implements Initializable {
         try {
             _customerService.deleteCustomer(customer);
             customerTable.getItems().remove(customer);
+            // Re-fetch appointments
+            appointmentsTable.setItems(FXCollections.observableList(_appointmentService.getAllAppointments()));
             this.displayInformation("Customer successfully deleted");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
