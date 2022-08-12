@@ -211,3 +211,7 @@
 2022-08-11T19:00:47.629132-05:00[America/Chicago] - User ID: 1 , Login Successful: true 
 2022-08-11T19:01:18.413252-05:00[America/Chicago] - User ID: 1 , Login Successful: true 
 2022-08-11T19:01:42.843324-05:00[America/Chicago] - User ID: 1 , Login Successful: true 
+2022-08-12T12:27:22.752251-05:00[America/Chicago] - User ID: 1 , Login Successful: true 
+2022-08-12T12:27:50.404227-05:00[America/Chicago] - User ID: 1 , Login Successful: true 
+2022-08-12T12:28:19.230972-05:00[America/Chicago] - User ID: 1 , Login Successful: true 
+2022-08-12T12:28:41.514396-05:00[America/Chicago] - User ID: 1 , Login Successful: true 

@@ -132,7 +132,11 @@ public class HomeController extends BaseController implements Initializable {
             if (appointment == null) {
                 message = "You have no upcoming appointments scheduled.";
             } else {
-                message = "You have an upcoming appointment";
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("M-dd-yyyy");
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
+                String date = appointment.getStart().format(dateFormatter);
+                String time = appointment.getStart().format(timeFormatter);
+                message = String.format("You have an upcoming appointment. Please see below for appointment details: \n\nAppointment Id: %d\nDate: %s\nTime: %s", appointment.getId(), date, time);
             }
             this.displayInformation(message);
             shouldDisplayUpcomingAppointments = false;
