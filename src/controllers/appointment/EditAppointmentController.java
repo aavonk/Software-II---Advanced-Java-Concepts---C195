@@ -46,20 +46,9 @@ public class EditAppointmentController extends AppointmentBaseController impleme
 
         // Initialize start & end time combo boxes
         this.initTimeComboBoxes();
-//        Calendar cal = Calendar.getInstance();
-//        cal.setTime(selectedAppointment.getStart());
-//
-//        LocalTime start = LocalTime.of(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE));
-//        startTimeComboBox.setValue(start.format(timeFormatter));
-        startTimeComboBox.setValue(selectedAppointment.getStart().format(timeFormatter));
 
-//        cal.setTime(selectedAppointment.getEnd());
-//        LocalTime end = LocalTime.of(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE));
-//        endTimeComboBox.setValue(end.format(timeFormatter));
+        startTimeComboBox.setValue(selectedAppointment.getStart().format(timeFormatter));
         endTimeComboBox.setValue(selectedAppointment.getEnd().format(timeFormatter));
-        // Initialize Date combo box
-//        cal.setTime(selectedAppointment.getStart());
-//        datePicker.setValue(LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH)));
         datePicker.setValue(selectedAppointment.getStart().toLocalDate());
 
 

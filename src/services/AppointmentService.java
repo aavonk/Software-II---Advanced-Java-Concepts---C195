@@ -175,8 +175,15 @@ public class AppointmentService extends Service {
 
         try {
             PreparedStatement statement = _conn.prepareStatement("SELECT * FROM appointments " +
-                    "WHERE Start BETWEEN NOW() and DATE_ADD(NOW(), INTERVAL 15 MINUTE);");
+                    "WHERE Start BETWEEN ? and ?;");
+
+            ZonedDateTime zdt = LocalDateTime.now().atZone(ZoneId.systemDefault());
+            LocalDateTime now = zdt.withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime();
+            LocalDateTime future =  now.plusMinutes(15);
+
             statement.setMaxRows(1);
+            statement.setTimestamp(1, Timestamp.valueOf(now));
+            statement.setTimestamp(2, Timestamp.valueOf(future));
 
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {

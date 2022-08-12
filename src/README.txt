@@ -1,4 +1,8 @@
-Application - WGU.Scheduling
+Application: WGU.Scheduling
+Author: Aaron von Kreisler
+Contact Information: avonkr3@wgu.edu
+Version: 2
+
 
 Purpose:
 
@@ -8,8 +12,9 @@ deleting customers. Other that that functionality, it provides 3 different repor
 type of appointments are being scheduled, by who, and where those people live.
 
 Development Environment:
-- IDE: IntelliJ IDEA
+- IDE: IntelliJ IDEA 2022.1.3 (Community Edition)
 - SDK: Java SDK Version 18
+- JavaFX Version - JavaFX-SDK-18.0.1
 - MySQL Connector version 8.0.29 (mysql-connector-java-8.0.29)
 
 

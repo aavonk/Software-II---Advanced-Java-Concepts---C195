@@ -140,7 +140,7 @@ public class HomeController extends BaseController implements Initializable {
     }
 
     /**
-     * @Lambda_Expressions - true
+     * Lambda_Expressions - true
      * Initializes the home controller action buttons with menu items. This method
      * uses Lambda expressions to set onAction event handlers on the menu items, that will
      * route them to their respective scenes when selected.
@@ -185,7 +185,7 @@ public class HomeController extends BaseController implements Initializable {
 
 
     /**
-     * @Lambda_Expressions - true
+     * Lambda_Expressions - true
      * Populates the Customer Table View with customer data. This method uses lambda functions to access
      * nested data from within a class and set the data-format for Table cells
      */
@@ -206,7 +206,7 @@ public class HomeController extends BaseController implements Initializable {
     }
 
     /**
-     * @Lambda_Expressions - true
+     * Lambda_Expressions - true
      * Populates the Appointments Table View with appointment data. This method uses lambda functions to access
      * nested data from within a class and set the data-format for Table cells
      */
